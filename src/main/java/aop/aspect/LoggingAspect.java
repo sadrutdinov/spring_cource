@@ -1,8 +1,12 @@
 package aop.aspect;
 
+import aop.Book;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -69,10 +73,35 @@ public class LoggingAspect {
 
 
     // выполняет перед методом
-    @Before("aop.aspect.MyPointcuts.allGetMethods()") // пойнткат
-    public void beforeGetLoggingAdvice() {
+    @Before("aop.aspect.MyPointcuts.allAddMethods()") // пойнткат
+    public void beforeAddLoggingAdvice(JoinPoint joinPoint) {
+
         System.out.print(ANSI_GREEN);
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        System.out.println("methodSignature = " + methodSignature);
+        System.out.println("methodSignature.getMethod() = " + methodSignature.getMethod());
+        System.out.println("methodSignature.getReturnType() = " + methodSignature.getReturnType());
+        System.out.println("methodSignature..getName() = " + methodSignature.getName());
+
+        if (methodSignature.getName().equals("addBook")) {
+            Object[] args = joinPoint.getArgs();
+            for (Object obj: args
+                 ) {
+                if (obj instanceof Book) {
+                    Book myBook = (Book) obj;
+                    System.out.println("Информация о книге: " +
+                            "Название - " + myBook.getName() +
+                            ", Автор - " + myBook.getAuthor() +
+                            ", Год публикации - " + myBook.getYearOfPublication());
+                }
+                else if (obj instanceof String) {
+                    System.out.println("Книгу в библиотеку добавляет " + obj);
+                }
+            }
+        }
+
         System.out.println("beforeGetLoggingAdvice: логирование попытки получить книгу/журнал");
+        System.out.println("---------------------------------------");
         System.out.print(ANSI_RESET);
     }
 

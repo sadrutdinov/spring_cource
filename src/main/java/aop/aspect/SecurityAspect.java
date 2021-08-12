@@ -13,10 +13,11 @@ public class SecurityAspect {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    @Before("aop.aspect.MyPointcuts.allGetMethods()")
-    public void beforeGetSecurityAdvice() {
+    @Before("aop.aspect.MyPointcuts.allAddMethods()")
+    public void beforeAddSecurityAdvice() {
         System.out.print(ANSI_GREEN);
         System.out.println("beforeGetSecurityAdvice: проверка прав на получение книги/журнала");
+        System.out.println("---------------------------------------");
         System.out.print(ANSI_RESET);
     }
 }

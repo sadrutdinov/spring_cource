@@ -12,10 +12,11 @@ public class ExceptionHandlerAspect {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    @Before("aop.aspect.MyPointcuts.allGetMethods()")
-    public void beforeGetExceptionHandlingAdvice() {
+    @Before("aop.aspect.MyPointcuts.allAddMethods()")
+    public void beforeAddExceptionHandlingAdvice() {
         System.out.print(ANSI_GREEN);
         System.out.println("beforeGetExceptionHandlingAdvice: ловим обрабатываем исключения при попытке получения книги/журнала");
+        System.out.println("---------------------------------------");
         System.out.print(ANSI_RESET);
     }
 }
